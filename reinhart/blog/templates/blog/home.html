@@ -9,6 +9,17 @@
     <main>
         <h1>Hello, This is the blog homepage.</h1>
         <h2>Personal archive of my inputs</h2>
+        <p>This is the new posts</p>
+        {% for post in posts %}
+
+            <div>
+                <h3>{{ post.title }}</h3>
+                <span class="date">{{ post.created }}</span>
+                <p>{{ post.content }}</p>
+                
+            </div>
+
+        {% endfor %}
     </main>
 </body>
 </html>

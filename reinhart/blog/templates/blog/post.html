@@ -3,24 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
+    <title>{{ post.title}}</title>
 </head>
 <body>
     <main>
         <h1>Hello, This is the blog homepage.</h1>
         <h2>Personal archive of my inputs</h2>
-        <p>This is the new posts</p>
-        {% for post in posts %}
 
             <div>
                 <h3>{{ post.title }}</h3>
-                <span class="date">{{ post.created|date:"SHORT_DATE_FORMAT" }}</span>
-                <p>{{ post.content|truncatewords:"20" }}</p>
-                <a href="blog/{{ post.id }}">Read more...</a>
-                
+                <span class="date">{{ post.created }}</span>
+                <p>{{ post.content }}</p>
+                <a href="/">Return to the content</a>
             </div>
 
-        {% endfor %}
     </main>
 </body>
 </html>

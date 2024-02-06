@@ -9,6 +9,13 @@ class Client:
     def __str__(self):
         return f'{self.dni} | {self.name} | {self.last_name}'
     
+    def to_dict(self):
+        return {
+            'dni': self.dni,
+            'name': self.name,
+            'last_name': self.last_name
+        }
+    
 class Clients:
 
     list_clients = []

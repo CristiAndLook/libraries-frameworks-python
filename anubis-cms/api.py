@@ -25,37 +25,34 @@ headers = {
 }
 
 # Create a FastAPI instance
-app = FastAPI()
+app = FastAPI(
+    title="Anubis CMS",
+    description="This is a simple example of a FastAPI app",
+    version="0.1",
+)
 
 # Define a route
-@app.get("/")
-async def root():
-    return JSONResponse(content={"message": "Hello, World!"}, headers=headers, media_type="application/json")
 
-@app.get("/html")
-async def html():
-    return Response(content="<h1>Hello, World!</h1>", headers=headers, media_type="text/html")
-
-@app.get("/clients/")
+@app.get("/clients/", tags=["Clients"])
 async def read_clients():
     content = [client.to_dict() for client in db.Clients.list_clients]
     return JSONResponse(content=content, headers=headers, media_type="application/json")
 
-@app.get("/clients/{dni}")
+@app.get("/clients/{dni}", tags=["Clients"])
 async def read_client(dni: str):
     client = db.Clients.search_client(dni)
     if client:
         return JSONResponse(content=client.to_dict(), headers=headers, media_type="application/json")
     return JSONResponse(content={"message": "Client not found"}, headers=headers, media_type="application/json")
 
-@app.post("/clients/create/")
+@app.post("/clients/create/", tags=["Clients"])
 async def create_client(client: ModelClientCreate):
     new_client = db.Clients.add_client(client.dni, client.name, client.last_name)
     if new_client:
         return JSONResponse(content=new_client.to_dict(), headers=headers, media_type="application/json")
     return JSONResponse(content={"message": "Client already exists"}, headers=headers, media_type="application/json")
 
-@app.put("/clients/modify/")
+@app.put("/clients/modify/", tags=["Clients"])
 async def modify_client(client: ModelClient):
     if db.Clients.search_client(client.dni):
         modified_client = db.Clients.modify_client(client.dni, client.name, client.last_name)
@@ -63,7 +60,7 @@ async def modify_client(client: ModelClient):
             return JSONResponse(content=modified_client.to_dict(), headers=headers, media_type="application/json")    
     raise HTTPException(status_code=404, detail="Client not found")
 
-@app.delete("/clients/delete/")
+@app.delete("/clients/delete/", tags=["Clients"])
 async def delete_client(dni: str):
     if db.Clients.search_client(dni):
         deleted_client = db.Clients.delete_client(dni)
